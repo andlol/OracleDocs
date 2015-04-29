@@ -1,0 +1,30 @@
+-- exercitiu marire salariu
+declare
+ani NUMBER;
+salariuInitial employees.salary%type;
+salariuFinal employees.salary%type;
+v_proc number;
+begin 
+  select floor((trunc(sysdate)-trunc(a.HIRE_DATE))/360 ),salary into ani,salariuInitial from employees a
+  where a.employee_id=105;
+  
+  dbms_output.put_line('intiail '||salariuInitial);
+  
+  if(ani >10) then  dbms_output.put_line('maresc cu 20%');
+                    v_proc:=0.2;
+                    
+  elsif(ani > 5) then dbms_output.put_line('maresc cu 10%');
+                    v_proc:=0.1;
+  else dbms_output.put_line('maresc cu 5%%');
+                    v_proc:=0.05;
+  end if;
+  
+  update employees
+  set salary=salary*v_proc+salary
+  where employee_id=105;
+  
+  select salary into salariuFinal from EMPLOYEES
+  where EMPLOYEE_ID=105;
+  
+  dbms_output.put_line('final '||salariuFinal);
+end;
